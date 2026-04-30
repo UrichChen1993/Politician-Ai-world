@@ -181,6 +181,16 @@ Reverie 用 `vision_r` 處理空間可見性，政治場景需要的是「角色
 
 > **狀態：已解決** — 見 [design/external-event-model.md](design/external-event-model.md)（雙通道 + `processedAtTick` 稽核紀錄）。
 
+### 20. 八字命理人格補充層未定義
+
+Politician-skill 的六軌研究依賴公開紀錄，當政治人物資料稀缺（新人、地方議員、歷史人物）時，backbone 推導只能使用 `DEFAULT_BACKBONE = 0.4` 兜底，style tag 無從偵測。
+
+缺乏一條獨立的人格推導路徑，導致：
+- 新人 Agent 的初始人格過於同質（全部 0.4 backbone）
+- 大運週期等時間維度的人格動態完全未被建模
+
+> **狀態：已解決** — 見 [design/bazi-model.md](design/bazi-model.md)（bazi.md 格式 + 格局→style tag 映射 + backbone 修正公式擴充 + 大運時間修正器 + §7 工具調用規範：以 `bazi-zh` Skill 執行分析，收集政治人物或建立模擬人物時作為行為參考補充層）。
+
 ---
 
 ## 建議優先補的三項
