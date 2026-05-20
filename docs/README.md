@@ -11,7 +11,8 @@
 3. [02-gaps.md](02-gaps.md) — 缺口分析（20 項待補項，每項標註「已解決／未解決」）
 4. [03-project-references.md](03-project-references.md) — 三個本地參考專案的技術索引（模組路徑 × 缺口對應）
 5. `design/` — 已釘下的子系統設計（每個子系統一份檔，當前版號）
-6. `archive/` — 被取代的歷史版本（只看交叉引用時才需要）
+6. `implementation-records/` — 實作紀錄（已完成 task 的落地內容與驗證方式）
+7. `archive/` — 被取代的歷史版本（只看交叉引用時才需要）
 
 ---
 
@@ -33,6 +34,9 @@ docs/
 │   ├── observability-model.md       可觀測性模型 v1（三張表 + PoC 驗收指標）
 │   ├── product-positioning.md       產品定位 v1（研究者 + 遊戲開發者，兩層介面）
 │   └── bazi-model.md               八字命理人格補充層 v1（格局映射 + backbone 修正 + 大運時間修正器）
+├── implementation-records/          實作紀錄（task 完成內容、驗證方式、後續注意事項）
+│   ├── poc-engineering-skeleton-task-2.md  Convex schema task 2 實作紀錄
+│   └── poc-engineering-skeleton-task-3.md  核心模擬函式 task 3 實作紀錄
 └── archive/                        歷史版本（已被取代）
     └── design-priority-three.md    v1 三合一設計檔（§1 抽出至 bill-model；§2 §3 已被 v2 取代）
 ```

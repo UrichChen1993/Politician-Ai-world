@@ -72,7 +72,7 @@
 
 ### 4.1 技術選擇
 
-- **後端**：Convex（schema + actions + scheduled functions）——對齊 [01-research.md](01-research.md) 既定方向
+- **後端**：Convex（schema + actions + scheduled functions）——對齊 [01-research.md](01-research.md) 既定方向，於 2026-05-10 確認不走 SQLite 過渡方案
 - **前端**：純 React + Convex hooks，不引入額外 UI library
 - **LLM 客戶端**：Anthropic SDK，模型先用 Haiku 4.5 控成本（見 [llm-cost-model.md](design/llm-cost-model.md)）
 - **隨機種子**：所有 `Math.random()` 包進 `rng(seed)` helper，session 開始時固定 seed（解 #17）
@@ -158,7 +158,7 @@ Phase B 啟動時，`decideOnce` 外面只包這四層：
 ## 8. 待決事項
 
 - [ ] §2 ground truth 法案 + 5 位政治人物選定（**用戶決定**）
-- [ ] §4.1 是否真的用 Convex，或先用純 TypeScript + SQLite 跑通再遷移
+- [x] ~~§4.1 是否真的用 Convex，或先用純 TypeScript + SQLite 跑通再遷移~~ → 2026-05-10 確認用 Convex
 - [ ] §6 任務 7 的「10 次 session」次數是否合理（隨機種子穩定性需要更多次？）
 - [ ] failure-model.md 在 PoC 完成時才寫，還是 Phase B 開始就建空檔逐條累積
 

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ground-truth.schema.json",
+  "title": "PoC Ground Truth Dataset",
+  "description": "PoC 對標資料集 schema。對應 docs/04-poc-plan.md §2 §6。先定義欄位，內容由人工蒐集後填入 ground-truth.json。",
+  "type": "object",
+  "required": ["meta", "bill", "politicians", "actualVotes", "simulationInputs", "expected"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["caseId", "version", "lastUpdated", "sourceLanguage"],
+      "properties": {
+        "caseId": { "type": "string", "description": "例：'tw-2017-labor-act-amendment'" },
+        "version": { "type": "integer", "minimum": 1 },
+        "lastUpdated": { "type": "string", "format": "date" },
+        "sourceLanguage": { "type": "string", "enum": ["zh-TW", "zh-HK", "en-US"] },
+        "compiledBy": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+
+    "bill": {
+      "type": "object",
+      "required": ["number", "title", "category", "articles", "stanceVector", "sessionWindow"],
+      "properties": {
+        "number": { "type": "string", "description": "法案編號，如 '院總第 1148 號'" },
+        "title": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": ["budget", "amendment", "ordinary", "treaty"],
+          "description": "對齊 design/bill-model.md §1"
+        },
+        "articles": {
+          "type": "array",
+          "description": "PoC 抽出 3-5 條核心條文即可，不需全文",
+          "items": {
+            "type": "object",
+            "required": ["articleNo", "text", "tags"],
+            "properties": {
+              "articleNo": { "type": "number" },
+              "text": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } },
+              "sourceUrl": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "stanceVector": {
+          "type": "object",
+          "description": "由人工標注，作為 mock decideOnce 的 ground-truth 投影向量",
+          "required": ["economic", "environment", "social"],
+          "properties": {
+            "economic": { "type": "number", "minimum": -1, "maximum": 1 },
+            "environment": { "type": "number", "minimum": -1, "maximum": 1 },
+            "social": { "type": "number", "minimum": -1, "maximum": 1 }
+          }
+        },
+        "sessionWindow": {
+          "type": "object",
+          "description": "法案實際走完的時間窗，session seed 與 agent 活躍期需落在此區間",
+          "required": ["startedAt", "endedAt"],
+          "properties": {
+            "startedAt": { "type": "string", "format": "date" },
+            "endedAt": { "type": "string", "format": "date" }
+          }
+        }
+      }
+    },
+
+    "politicians": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["agentId", "name", "factionId", "stanceVector", "sources"],
+        "properties": {
+          "agentId": { "type": "string", "description": "PoC 內穩定 ID，如 'P001'" },
+          "name": { "type": "string" },
+          "factionId": { "type": "string", "description": "黨團或派系 ID" },
+          "role": { "type": "string", "description": "如 '立委'、'黨團幹事長'" },
+          "profileRef": {
+            "type": "string",
+            "description": "對應 politician-skill 的 skill name 或 profile 檔路徑"
+          },
+          "stanceVector": {
+            "type": "object",
+            "description": "個人立場座標，由人工從公開發言標注；對齊 design/politician-skill-contract.md",
+            "required": ["economic", "environment", "social"],
+            "properties": {
+              "economic": { "type": "number", "minimum": -1, "maximum": 1 },
+              "environment": { "type": "number", "minimum": -1, "maximum": 1 },
+              "social": { "type": "number", "minimum": -1, "maximum": 1 }
+            }
+          },
+          "opinionStateInit": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1,
+            "description": "PoC 階段為單一 scalar（見 04-poc-plan.md §3），不在 session 內更新"
+          },
+          "bazi": {
+            "type": "object",
+            "description": "可選；若該人物有八字資料，對齊 design/bazi-model.md",
+            "properties": {
+              "pillars": { "type": "string" },
+              "格局": { "type": "string" }
+            }
+          },
+          "sources": {
+            "type": "array",
+            "description": "引用來源（公報、發言、訪談），至少 2 筆",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["kind", "ref"],
+              "properties": {
+                "kind": { "type": "string", "enum": ["公報", "逐字稿", "媒體報導", "訪談", "立場表態", "其他"] },
+                "ref": { "type": "string" },
+                "url": { "type": "string", "format": "uri" },
+                "date": { "type": "string", "format": "date" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "actualVotes": {
+      "type": "array",
+      "description": "真實表決紀錄；用於 endSession 比對",
+      "items": {
+        "type": "object",
+        "required": ["agentId", "vote", "sourceUrl"],
+        "properties": {
+          "agentId": { "type": "string" },
+          "vote": { "type": "string", "enum": ["yes", "no", "abstain", "absent"] },
+          "stage": {
+            "type": "string",
+            "enum": ["first_reading", "committee", "second_reading", "third_reading", "final"],
+            "description": "PoC 只比對 'final'，其他階段選填供未來擴充"
+          },
+          "publicReasoning": { "type": "string", "description": "若該議員有公開說明投票理由" },
+          "sourceUrl": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+
+    "simulationInputs": {
+      "type": "object",
+      "description": "餵給模擬器的初始狀態（不含答案）",
+      "required": ["initialMediaSpotlight", "externalEvents", "rngSeed"],
+      "properties": {
+        "initialMediaSpotlight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "PoC 設常數（見 04-poc-plan.md §7）"
+        },
+        "externalEvents": {
+          "type": "array",
+          "description": "PoC 通常為空陣列；保留以便日後注入歷史事件做 what-if",
+          "items": { "type": "object" }
+        },
+        "rngSeed": { "type": "integer", "description": "固定 seed 以便重現（解 02-gaps.md #17）" }
+      }
+    },
+
+    "expected": {
+      "type": "object",
+      "description": "驗收條件",
+      "required": ["matchThreshold", "minRunsForStability"],
+      "properties": {
+        "matchThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "對 actualVotes 的最低吻合率，PoC 設 0.8（5 取 4，見 04-poc-plan.md §1）"
+        },
+        "minRunsForStability": {
+          "type": "integer",
+          "description": "重複跑次數，用以驗證 rngSeed 穩定性（04-poc-plan.md §6 任務 7，初定 10）"
+        },
+        "knownDifficultCases": {
+          "type": "array",
+          "description": "預期模擬會抓不到的議員與原因；事先登記避免事後合理化",
+          "items": {
+            "type": "object",
+            "required": ["agentId", "reason"],
+            "properties": {
+              "agentId": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
