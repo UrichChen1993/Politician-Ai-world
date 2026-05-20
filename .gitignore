@@ -1,2 +1,34 @@
-
+# 環境變數
+.env
 .env.local
+.env.*.local
+
+# 依賴與建置產物
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# 本地資料（不上 repo，詳見 docs/README.md）
+data/
+
+# AI 工具暫存（個人設定，不需共享）
+.claude/
+.codex/
+.cursor/
+.gemini/
+
+# 編輯器 / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 日誌
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 測試覆蓋率
+coverage/
