@@ -1,4 +1,4 @@
-import { queryGeneric } from "convex/server";
+import { query } from "./_generated/server";
 import { v } from "convex/values";
 
 export type StanceVector = {
@@ -39,12 +39,12 @@ export function reasoningForScore(score: number): string {
   return `Phase A stance dot product=${score.toFixed(4)}`;
 }
 
-export const decideOnce = queryGeneric({
+export const decideOnce = query({
   args: {
     agentStanceVector: stanceVectorArg,
     billStanceVector: stanceVectorArg,
   },
-  handler: async (_ctx, args) => {
+  handler: async (_ctx, args: { agentStanceVector: StanceVector; billStanceVector: StanceVector }) => {
     const score = dotProduct(args.agentStanceVector, args.billStanceVector);
 
     return {

@@ -1,4 +1,4 @@
-import { mutationGeneric } from "convex/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Vote } from "./decideOnce.ts";
 
@@ -83,7 +83,7 @@ export async function endSessionHandler(
   };
 }
 
-export const endSession = mutationGeneric({
+export const endSession = mutation({
   args: {
     sessionId: v.id("sessions"),
   },

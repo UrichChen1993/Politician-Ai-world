@@ -1,4 +1,4 @@
-import { mutationGeneric } from "convex/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { decideVote, dotProduct, reasoningForScore, type StanceVector } from "./decideOnce.ts";
 import { recordVoteHandler } from "./recordVote.ts";
@@ -59,7 +59,7 @@ export async function runTickHandler(
   return { decisions: agents.length, billId };
 }
 
-export const runTick = mutationGeneric({
+export const runTick = mutation({
   args: {
     sessionId: v.id("sessions"),
   },

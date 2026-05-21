@@ -1,4 +1,4 @@
-import { mutationGeneric } from "convex/server";
+import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Vote } from "./decideOnce.ts";
 
@@ -36,7 +36,7 @@ export async function recordVoteHandler(
   return await ctx.db.insert("billVotes", doc);
 }
 
-export const recordVote = mutationGeneric({
+export const recordVote = mutation({
   args: {
     sessionId: v.id("sessions"),
     billId: v.id("bills"),
@@ -45,5 +45,6 @@ export const recordVote = mutationGeneric({
     reasoning: v.string(),
     llmCallId: v.optional(v.id("llmCallLog")),
   },
-  handler: recordVoteHandler,
+  handler: async (ctx, args) =>
+    await recordVoteHandler(ctx as unknown as { db: InsertableDb }, args),
 });
