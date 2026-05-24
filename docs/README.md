@@ -72,6 +72,57 @@ docs/
 
 ---
 
+## 前端 × Convex 接線
+
+### 架構起始點
+
+本專案有兩個起始點：
+
+1. **前端**：`src/main.tsx` → `App.tsx` → 瀏覽器畫面
+2. **後端**：`convex/` 資料夾 — 每個 `.ts` 檔 export 的 `query`/`mutation` 自動成為 API endpoint
+
+### Convex Router 機制
+
+Convex 沒有傳統 router，**檔案系統即路由**。呼叫路徑由 `convex/_generated/api.d.ts` 自動產生：
+
+| 檔案 | export | 類型 | 呼叫路徑 |
+|---|---|---|---|
+| `convex/decideOnce.ts` | `decideOnce` | query | `api.decideOnce.decideOnce` |
+| `convex/recordVote.ts` | `recordVote` | mutation | `api.recordVote.recordVote` |
+| `convex/runTick.ts` | `runTick` | mutation | `api.runTick.runTick` |
+| `convex/endSession.ts` | `endSession` | mutation | `api.endSession.endSession` |
+
+### 前端呼叫後端
+
+`src/main.tsx` 透過 `ConvexProvider` 接上 Convex backend：
+
+```tsx
+import { ConvexProvider, ConvexReactClient } from 'convex/react'
+const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string)
+```
+
+元件內使用 hooks：
+
+```tsx
+import { useQuery, useMutation } from 'convex/react'
+import { api } from '../convex/_generated/api'
+
+const result = useQuery(api.decideOnce.decideOnce, { ... })
+const runTick = useMutation(api.runTick.runTick)
+```
+
+### 環境變數
+
+需要在 `.env.local` 設定：
+
+```
+VITE_CONVEX_URL=https://<your-deployment>.convex.cloud
+```
+
+此值由 `npx convex dev` 自動產生。
+
+---
+
 ## 本地資料目錄（`data/`）
 
 - `data/` 已加入 [.gitignore](../.gitignore)，**不上 repo**

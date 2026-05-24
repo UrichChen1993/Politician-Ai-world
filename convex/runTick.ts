@@ -63,6 +63,15 @@ export const runTick = mutation({
   args: {
     sessionId: v.id("sessions"),
   },
-  handler: async (ctx, args) =>
-    await runTickHandler(ctx as unknown as { db: QueryableDb }, args),
+  handler: async (ctx, args) => {
+    try {
+      return await runTickHandler(ctx as unknown as { db: QueryableDb }, args);
+    } catch (err) {
+      console.error("[runTick] failed", {
+        sessionId: args.sessionId,
+        error: err instanceof Error ? { message: err.message, stack: err.stack } : err,
+      });
+      throw err;
+    }
+  },
 });
