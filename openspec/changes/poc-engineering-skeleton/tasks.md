@@ -20,12 +20,12 @@
 
 ## 4. 種子資料
 
-- [ ] 4.1 建立 `convex/seed.ts`：seed action，插入 5 位 placeholder 政治人物 + 1 部 placeholder 法案
-- [ ] 4.2 確保 seed 冪等（先清再插）
+- [x] 4.1 建立 `convex/seed.ts`：seed action，插入 5 位 placeholder 政治人物 + 1 部 placeholder 法案
+- [x] 4.2 確保 seed 冪等（先清再插）
 
 ## 5. Observatory 前端
 
-- [ ] 5.1 設定 `src/main.tsx` + `src/App.tsx` 接 ConvexProvider
+- [x] 5.1 設定 `src/main.tsx` + `src/App.tsx` 接 ConvexProvider
 - [ ] 5.2 建立 `src/pages/Observatory.tsx`：agent 列表、法案狀態、投票結果、成本摘要 placeholder
 - [ ] 5.3 加入 Convex useQuery hooks 連接後端資料
 
