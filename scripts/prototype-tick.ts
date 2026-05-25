@@ -6,7 +6,7 @@
 // Run: npm run proto:tick
 
 import * as readline from "node:readline";
-import { dotProduct, decideVote, reasoningForScore, type StanceVector, type Vote } from "../convex/decideOnce.ts";
+import { dotProduct, decideVote, type StanceVector, type Vote } from "../convex/lib/decisionLogic.ts";
 import { AGENTS, BILL } from "../convex/lib/seedData.ts";
 
 // ── In-memory state ──────────────────────────────────────────────

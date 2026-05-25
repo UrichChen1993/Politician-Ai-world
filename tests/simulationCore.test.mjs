@@ -26,7 +26,7 @@ test("rng values stay in the half-open range [0, 1)", async () => {
 });
 
 test("decideVote returns yes, no, or abstain from stance-vector dot product", async () => {
-  const { decideVote } = await import("../convex/decideOnce.ts");
+  const { decideVote } = await import("../convex/lib/decisionLogic.ts");
   const bill = { economic: 0.6, environment: 0.4, social: 0.2 };
 
   assert.equal(
@@ -48,7 +48,7 @@ test("decideVote returns yes, no, or abstain from stance-vector dot product", as
 });
 
 test("recordVoteHandler inserts a billVotes record", async () => {
-  const { recordVoteHandler } = await import("../convex/recordVote.ts");
+  const { recordVoteHandler } = await import("../convex/lib/recordVoteHandler.ts");
   const inserted = [];
   const ctx = {
     db: {
@@ -83,7 +83,7 @@ test("recordVoteHandler inserts a billVotes record", async () => {
 });
 
 test("runTickHandler records one vote per agent for the first bill in scope", async () => {
-  const { runTickHandler } = await import("../convex/runTick.ts");
+  const { runTickHandler } = await import("../convex/lib/runTickHandler.ts");
   const inserted = [];
   const agents = Array.from({ length: 5 }, (_, index) => ({
     _id: `agent-${index + 1}`,
@@ -122,8 +122,12 @@ test("runTickHandler records one vote per agent for the first bill in scope", as
 });
 
 test("endSessionHandler marks a session ended and reports ground-truth match rate", async () => {
-  const { endSessionHandler } = await import("../convex/endSession.ts");
+  const { endSessionHandler } = await import("../convex/lib/endSessionHandler.ts");
   const patches = [];
+  const agents = Array.from({ length: 5 }, (_, i) => ({
+    _id: `agent-${i + 1}`,
+    profileRef: `agent-${i + 1}`,
+  }));
   const simulatedVotes = ["yes", "yes", "no", "abstain", "no"].map((vote, index) => ({
     agentId: `agent-${index + 1}`,
     billId: "bill-1",
@@ -149,10 +153,9 @@ test("endSessionHandler marks a session ended and reports ground-truth match rat
         patches.push({ id, doc });
       },
       query: (table) => {
-        assert.equal(table, "billVotes");
-        return {
-          collect: async () => simulatedVotes,
-        };
+        if (table === "agents") return { collect: async () => agents };
+        if (table === "billVotes") return { collect: async () => simulatedVotes };
+        throw new Error(`Unexpected table: ${table}`);
       },
     },
   };
@@ -163,4 +166,84 @@ test("endSessionHandler marks a session ended and reports ground-truth match rat
   assert.equal(patches[0].id, "session-1");
   assert.equal(typeof patches[0].doc.endedAt, "number");
   assert.deepEqual(result, { matchCount: 4, total: 5, matchRate: 0.8 });
+});
+
+test("Phase A end-to-end: seed → runTick → endSession with real ground-truth data → 5/5 match", async () => {
+  const { AGENTS, BILL } = await import("../convex/lib/seedData.ts");
+  const { runTickHandler } = await import("../convex/lib/runTickHandler.ts");
+  const { endSessionHandler } = await import("../convex/lib/endSessionHandler.ts");
+
+  // In-memory DB
+  const store = { agents: [], bills: [], sessions: [], billVotes: [] };
+  let idCounter = 0;
+  const nextId = (prefix) => `${prefix}-${++idCounter}`;
+
+  // Seed
+  const agentIds = [];
+  for (const a of AGENTS) {
+    const id = nextId("agent");
+    store.agents.push({ _id: id, ...a });
+    agentIds.push(id);
+  }
+  const billId = nextId("bill");
+  store.bills.push({ _id: billId, ...BILL });
+
+  // Start session
+  const sessionId = nextId("session");
+  store.sessions.push({
+    _id: sessionId,
+    startedAt: Date.now(),
+    seed: 748,
+    billsInScope: [billId],
+  });
+
+  // Mock DB
+  const db = {
+    get: async (id) => {
+      for (const t of [store.sessions, store.bills, store.agents]) {
+        const found = t.find((r) => r._id === id);
+        if (found) return found;
+      }
+      return undefined;
+    },
+    query: (table) => ({
+      collect: async () => store[table === "billVotes" ? "billVotes" : table] ?? [],
+    }),
+    insert: async (table, doc) => {
+      const id = nextId(table);
+      const record = { _id: id, ...doc };
+      if (table === "billVotes") store.billVotes.push(record);
+      return id;
+    },
+    patch: async (id, patch) => {
+      for (const t of [store.sessions, store.bills, store.agents]) {
+        const found = t.find((r) => r._id === id);
+        if (found) Object.assign(found, patch);
+      }
+    },
+  };
+
+  // Run tick
+  const tickResult = await runTickHandler({ db }, { sessionId });
+  assert.equal(tickResult.decisions, 5, "Should have 5 decisions");
+  assert.equal(store.billVotes.length, 5, "Should have 5 vote records");
+
+  // End session
+  const endResult = await endSessionHandler({ db }, { sessionId });
+
+  // Verify
+  assert.equal(endResult.total, 5, "Should compare 5 votes");
+  assert.equal(endResult.matchCount, 5, "All 5 votes should match ground truth");
+  assert.equal(endResult.matchRate, 1.0, "Match rate should be 100%");
+
+  // Log details for visibility
+  const { decideVote, dotProduct } = await import("../convex/lib/decisionLogic.ts");
+  for (const agent of store.agents) {
+    const score = dotProduct(agent.stanceVector, store.bills[0].stanceVector);
+    const predicted = decideVote(agent.stanceVector, store.bills[0].stanceVector);
+    const actual = BILL.actualVotes.find((v) => v.agentId === agent.profileRef);
+    console.log(
+      `  ${agent.name}: dot=${score.toFixed(2)} → ${predicted} (actual: ${actual?.vote}) ${predicted === actual?.vote ? "✓" : "✗"}`,
+    );
+  }
 });
