@@ -26,12 +26,12 @@
 ## 5. Observatory 前端
 
 - [x] 5.1 設定 `src/main.tsx` + `src/App.tsx` 接 ConvexProvider
-- [ ] 5.2 建立 `src/pages/Observatory.tsx`：agent 列表、法案狀態、投票結果、成本摘要 placeholder
-- [ ] 5.3 加入 Convex useQuery hooks 連接後端資料
+- [x] 5.2 建立 `src/pages/Observatory.tsx`：agent 列表、法案狀態、投票結果、成本摘要 placeholder
+- [x] 5.3 加入 Convex useQuery hooks 連接後端資料
 
 ## 6. 驗證
 
-- [ ] 6.1 `npm run dev` 啟動 Vite 成功
-- [ ] 6.2 `npx convex dev` 部署 schema 成功
-- [ ] 6.3 執行 seed action 寫入假資料
-- [ ] 6.4 Observatory 頁面能顯示 seed 資料
+- [x] 6.1 `npm run dev` 啟動 Vite 成功
+- [x] 6.2 `npx convex dev` 部署 schema 成功
+- [x] 6.3 執行 seed action 寫入假資料
+- [x] 6.4 Observatory 頁面能顯示 seed 資料
