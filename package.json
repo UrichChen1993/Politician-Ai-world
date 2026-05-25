@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "node --test",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "proto:tick": "npx tsx scripts/prototype-tick.ts"
   },
   "dependencies": {
     "convex": "^1.39.1",
