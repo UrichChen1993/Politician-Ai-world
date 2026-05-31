@@ -6,6 +6,8 @@ import assert from "node:assert/strict";
 
 // Import seed data to verify Observatory can display it
 const { AGENTS, BILL } = await import("../convex/lib/seedData.ts");
+// Import helper from the component module
+const { formatCost } = await import("../src/pages/observatory.helpers.ts");
 
 // --- Agent List ---
 
@@ -67,9 +69,6 @@ test("Observatory cost summary: should sum costUsd from llmCallLog entries", () 
   const totalCost = llmCallLog.reduce((sum, entry) => sum + entry.costUsd, 0);
   assert.equal(formatCost(totalCost), "$0.06", "formatted cost sums correctly");
 });
-
-// Import helper from the component module
-const { formatCost } = await import("../src/pages/observatory.helpers.ts");
 
 // --- Component structure contract ---
 
