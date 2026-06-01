@@ -30,6 +30,10 @@ export default defineSchema({
     stanceVector,
     factionId: v.string(),
     opinionState: v.number(),
+    // Phase B: leak-free persona injected into the LLM prompt. Encodes party,
+    // role, disposition and issue stance as knowable *before* the vote — never
+    // the actual vote or voting-day reasoning. Optional so Phase A seeds stay valid.
+    persona: v.optional(v.string()),
   }),
 
   bills: defineTable({

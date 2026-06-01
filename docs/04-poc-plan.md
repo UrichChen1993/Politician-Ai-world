@@ -137,6 +137,8 @@ Phase B 啟動時，`decideOnce` 外面只包這四層：
 | 7 | 跑 10 次 session，看 ground truth 吻合率 + 隨機種子穩定性 | 半天 | 吻合率 < 4/5 → 不是收工而是進入下一階段分析 |
 | 8 | 整理 failure-model.md（從 llmCallLog 反推） | 半天 | — |
 
+> **進度（2026-06-01）**：任務 6 的**工程骨架已完成並 TDD 全綠**——`decideOnceLLM` 四層容錯、Anthropic(Haiku)/DeepSeek 雙 provider、`runTickLLM` action、leak-free persona、`failure-model.md` 骨架皆就位。尚缺：設定 Convex 金鑰後**實際跑一次真實 LLM session**，回填 failure-model 與吻合率（任務 7、8）。
+
 任務 7 結束就是 PoC 完成點。**吻合率不是「達不到就失敗」**，而是「達到才有資格進入下一階段（多法案 / 媒體層 / drift 視覺化）」。
 
 ---

@@ -4,6 +4,9 @@ type SeedDb = {
   delete: (id: unknown) => Promise<void>;
 };
 
+// Personas are deliberately leak-free: party / role / disposition / issue stance
+// as knowable *before* the 2019-05-17 vote. They never contain the actual vote or
+// any voting-day reasoning — predicting the vote from these is the PoC's test.
 export const AGENTS = [
   {
     name: "蔣萬安",
@@ -11,6 +14,8 @@ export const AGENTS = [
     factionId: "KMT",
     stanceVector: { economic: 0.6, environment: 0.1, social: 0.4 },
     opinionState: 0.3,
+    persona:
+      "國民黨籍立委，台北市第三選區。黨內年輕世代，法律專業背景。社會議題上立場較黨團主流開放，傾向尊重個人權利與平等。經濟立場偏右。面對黨團紀律壓力時展現一定程度的獨立性，會依個人判斷而非全然服從黨團決議。",
   },
   {
     name: "賴士葆",
@@ -18,6 +23,8 @@ export const AGENTS = [
     factionId: "KMT",
     stanceVector: { economic: 0.7, environment: -0.1, social: -0.8 },
     opinionState: -0.8,
+    persona:
+      "國民黨資深立委，台北市第八選區。政治判斷務實，高度重視選民民意與公投表決結果，視民意數字為正當性來源。社會議題上立場保守。立場一旦確立不易轉變，黨團紀律服從度高。經濟立場偏右。",
   },
   {
     name: "黃國昌",
@@ -25,6 +32,8 @@ export const AGENTS = [
     factionId: "NPP",
     stanceVector: { economic: -0.2, environment: 0.3, social: 0.9 },
     opinionState: 0.9,
+    persona:
+      "時代力量黨主席、立委，新北市第十二選區。法律學者出身，重證據與原則甚於利害計算。社會議題上立場進步，堅定支持公民權利與平權。面對外部施壓（含罷免威脅）立場不動搖，孤軍奮戰傾向強。經濟立場略偏左。",
   },
   {
     name: "林昶佐",
@@ -32,6 +41,8 @@ export const AGENTS = [
     factionId: "NPP",
     stanceVector: { economic: -0.3, environment: 0.2, social: 0.9 },
     opinionState: 0.8,
+    persona:
+      "時代力量創黨成員、立委，台北市第五選區，搖滾樂手出身。社會議題上強烈進步，反建制性格鮮明，面對權威壓力傾向正面對抗而非迴避。表達風格直接、情緒張力強，擅長將立場轉化為公開聲量。經濟立場偏左。",
   },
   {
     name: "林岱樺",
@@ -39,6 +50,8 @@ export const AGENTS = [
     factionId: "DPP",
     stanceVector: { economic: -0.3, environment: 0.2, social: -0.3 },
     opinionState: -0.5,
+    persona:
+      "民主進步黨籍立委，高雄市第四選區。自我意識強、主見突出，重視選區地方民意甚於黨中央指令。社會議題上立場相對保守。其選區於2018年公投對同性婚姻相關提案多數持反對立場。即使面臨黨團紀律壓力，仍可能依選區民意堅持己見。經濟立場略偏左。",
   },
 ] as const;
 
