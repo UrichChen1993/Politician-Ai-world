@@ -3,6 +3,7 @@ import type { ProviderName } from "./config.ts";
 import type { FetchFn } from "./http.ts";
 import { createAnthropicClient } from "./anthropicClient.ts";
 import { createDeepseekClient } from "./deepseekClient.ts";
+import { createGeminiClient } from "./geminiClient.ts";
 
 export function createClient(
   provider: string,
@@ -13,6 +14,8 @@ export function createClient(
       return createAnthropicClient(opts);
     case "deepseek":
       return createDeepseekClient(opts);
+    case "gemini":
+      return createGeminiClient(opts);
     default:
       throw new Error(`unknown LLM provider: ${provider}`);
   }

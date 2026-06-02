@@ -2,7 +2,7 @@
 // Provider-agnostic: the same decision pipeline runs against Anthropic (Haiku) or
 // DeepSeek, selected at runtime by the LLM_PROVIDER env var.
 
-export type ProviderName = "anthropic" | "deepseek";
+export type ProviderName = "anthropic" | "deepseek" | "gemini";
 
 export type ModelRate = {
   inputPerMTok: number; // USD per 1M input (prompt) tokens
@@ -14,11 +14,14 @@ export type ModelRate = {
 export const MODEL_RATES: Record<string, ModelRate> = {
   "claude-haiku-4-5-20251001": { inputPerMTok: 0.8, outputPerMTok: 4.0 },
   "deepseek-chat": { inputPerMTok: 0.27, outputPerMTok: 1.1 },
+  // Gemini 2.5 Flash published rate (≤200k-token prompts). Estimate — recalibrate.
+  "gemini-2.5-flash": { inputPerMTok: 0.3, outputPerMTok: 2.5 },
 };
 
 export const PROVIDER_DEFAULTS: Record<ProviderName, { model: string }> = {
   anthropic: { model: "claude-haiku-4-5-20251001" },
   deepseek: { model: "deepseek-chat" },
+  gemini: { model: "gemini-2.5-flash" },
 };
 
 export const LLM_CONFIG = {
