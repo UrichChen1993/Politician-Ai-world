@@ -51,12 +51,24 @@ npx convex env set LLM_MODEL <model-id>
 # 2. 部署 + 重新產生 _generated/api（含 getTickContext / recordDecision / runTickLLM）
 npx convex dev
 
-# 3. 載入種子資料（若尚未）並取得一個 sessionId
+# 3. 載入種子資料（若尚未）— 只建立 agents + bills，回傳 { agents: 5, bills: 1 }
 npx convex run seed:seed
 
-# 4. 對某個 session 跑一個 LLM tick
+# 4. 建立一個 session 並取得 sessionId（seed 不會產生 sessionId）
+#    回傳 { sessionId: "<id>", billsInScope: 1 }；可選 seed 參數（預設 748）
+npx convex run startSession:startSession
+#    （選用）指定 seed：npx convex run startSession:startSession '{"seed":748}'
+
+# 5. 把上一步的 sessionId 填入，對該 session 跑一個 LLM tick
+#    macOS / Linux (bash/zsh)：
 npx convex run runTickLLM:runTickLLM '{"sessionId":"<id>"}'
+#    Windows PowerShell：內層雙引號需用反斜線跳脫（npx.cmd shim 會吃掉裸引號）
+npx convex run runTickLLM:runTickLLM '{\"sessionId\":\"<id>\"}'
 ```
+
+> **Windows 注意**：上面所有帶 JSON 參數的指令（含 `startSession` 的 `'{"seed":748}'`）
+> 在 PowerShell 都要把內層 `"` 改成 `\"`——例如 `'{\"seed\":748}'`、
+> `'{\"sessionId\":\"<id>\"}'`，否則會出現 `Failed to parse arguments as JSON` 錯誤。
 
 每位 agent 會產生一筆投票 + 一筆 `llmCallLog`（tokens / 成本 / 延遲 / errorKind）。
 任何 LLM 失敗都會自動降級回 Phase A 點積決策，並在 `llmCallLog.errorKind` 留痕；
@@ -65,8 +77,35 @@ npx convex run runTickLLM:runTickLLM '{"sessionId":"<id>"}'
 > **注意**：`convex/_generated/api` 在跑過 `npx convex dev` 前不含 Phase B 的新函式，
 > 屬正常現象——dev 會自動重新產生。app build（`tsc -b`）不檢查 `convex/`，不受影響。
 
-**驗收（poc-plan 任務 7、8）**：跑約 10 次 session，比對 ground truth 吻合率（目標 ≥ 4/5）+
-隨機種子穩定性，再從 `llmCallLog` 反推回填 failure-model.md。
+### Phase B：一鍵驗收
+
+不用手動一筆筆翻表——`verifyPhaseB` action 會自動跑 N 次
+`startSession → runTickLLM → endSession → sessionStats` 並彙整成一張摘要：
+
+```bash
+# bash/zsh
+npx convex run verifyPhaseB:verifyPhaseB '{"runs":10}'
+# Windows PowerShell（內層引號需跳脫）
+npx convex run verifyPhaseB:verifyPhaseB '{\"runs\":10}'
+```
+
+摘要由上到下判讀：
+
+1. **`totalFallbacks` vs `totalLlmCalls`** — 先看這個。fallback 一多，下面的吻合率其實是
+   Phase A 點積的成績，不是 LLM 的。`errorKinds` 說明為何降級（timeout /
+   schema_validation_failed / …）。
+2. **`avgMatchRate` + `matchRates`** — 對 ground truth 的吻合率，目標 ≥ 0.8（4/5）。
+3. **`matchRates` 離散程度** — 種子穩定性；同 seed 應該很穩，跳動大代表 LLM 不穩定。
+4. **`totalCostUsd` / `avgLatencyMs`** — 成本與延遲的量綱 sanity。
+
+單看某次每位 agent 投什麼、理由為何（join 投票與 `llmCallLog`）：
+
+```bash
+npx convex run queries:sessionStats '{\"sessionId\":\"<id>\"}'   # PowerShell 引號跳脫同上
+```
+
+**驗收（poc-plan 任務 7、8）**：以上 `verifyPhaseB` 跑約 10 次比對吻合率（目標 ≥ 4/5）+
+隨機種子穩定性，再從 `errorKinds` 反推回填 [failure-model.md](docs/design/failure-model.md)。
 
 ## 專案結構
 

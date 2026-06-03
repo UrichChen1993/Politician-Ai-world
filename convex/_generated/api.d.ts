@@ -38,6 +38,7 @@ import type * as runTick from "../runTick.js";
 import type * as runTickLLM from "../runTickLLM.js";
 import type * as seed from "../seed.js";
 import type * as startSession from "../startSession.js";
+import type * as verifyPhaseB from "../verifyPhaseB.js";
 
 import type {
   ApiFromModules,
@@ -76,6 +77,7 @@ declare const fullApi: ApiFromModules<{
   runTickLLM: typeof runTickLLM;
   seed: typeof seed;
   startSession: typeof startSession;
+  verifyPhaseB: typeof verifyPhaseB;
 }>;
 
 /**
