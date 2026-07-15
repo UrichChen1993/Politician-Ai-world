@@ -1,0 +1,21 @@
+{
+  "projectRoot": "D:\\work\\AI\\Politician-Ai-world",
+  "files": [
+    {"path": ".understand-anything/.understandignore", "language": "unknown", "fileCategory": "code"},
+    {"path": ".understand-anything/config.json", "language": "json", "fileCategory": "config"},
+    {"path": "docs/00-conventions.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/01-research.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/02-gaps.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/03-project-references.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/archive/design-priority-three.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/bill-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/external-event-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/llm-cost-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/media-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/observability-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/politician-skill-contract.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/product-positioning.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/design/time-model.md", "language": "markdown", "fileCategory": "docs"},
+    {"path": "docs/README.md", "language": "markdown", "fileCategory": "docs"}
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/design/bill-model.md",
+      "type": "document",
+      "name": "bill-model.md",
+      "filePath": "docs/design/bill-model.md",
+      "summary": "Pins down the bill data schema: structured articles with topic tags, a stanceVector projection used for the dot-product vote shortcut, a stage/committee workflow, an amendment version chain, and session-bound expiry instead of tick-based deadlines.",
+      "tags": ["documentation", "data-model", "schema-definition", "legislative-workflow", "versioning"],
+      "complexity": "moderate",
+      "languageNotes": "Embeds a Convex/TypeScript `defineTable` schema block inside Traditional Chinese prose; stanceVector is designed as a precomputed vector so per-agent voting avoids a full LLM re-read of the bill text."
+    },
+    {
+      "id": "document:docs/design/external-event-model.md",
+      "type": "document",
+      "name": "external-event-model.md",
+      "filePath": "docs/design/external-event-model.md",
+      "summary": "Defines two deliberately separate external-injection channels — Admin Override (research tool, bypasses the media layer) and World Event (enters the Event Stream and is subject to media framing) — with a shared, auditable externalEvents schema and a PoC scoped to admin_override only.",
+      "tags": ["documentation", "event-driven", "architecture", "admin-tooling", "audit-trail"],
+      "complexity": "moderate",
+      "languageNotes": "Uses `processedAtTick: number | null` instead of a boolean specifically to preserve reproducibility/audit value, a deliberate tradeoff called out in the doc's own tradeoff table."
+    },
+    {
+      "id": "document:docs/design/llm-cost-model.md",
+      "type": "document",
+      "name": "llm-cost-model.md",
+      "filePath": "docs/design/llm-cost-model.md",
+      "summary": "Classifies LLM calls into A/B/C tiers, defines a dot-product shortcut for decideVote, a three-layer Reflect throttle, a prompt-caching strategy for the ~4.5K-token skillMd block, and concrete per-scale cost estimates (PoC ~$0.09 to 100-agent cycle ~$112) with a budget-cap degradation ladder.",
+      "tags": ["documentation", "cost-optimization", "llm-orchestration", "budget-cap", "throttling"],
+      "complexity": "complex",
+      "languageNotes": "Mixes Python pseudocode (throttle logic, cost formulas) and a TypeScript LLM_CONFIG constants block with concrete Haiku/Sonnet pricing tables to justify each degradation threshold numerically."
+    },
+    {
+      "id": "document:docs/design/media-model.md",
+      "type": "document",
+      "name": "media-model.md",
+      "filePath": "docs/design/media-model.md",
+      "summary": "Specifies a three-channel opinion model (Media, Pollster, Campaign) where only polls are a noisy public snapshot of a hidden true opinionState, defines the sentiment/confidence update formulas per channel, a rule-based media_tick scoring/framing algorithm, and the final media_spotlight decay formula feeding the pressure function.",
+      "tags": ["documentation", "media-simulation", "public-opinion", "schema-definition", "event-driven"],
+      "complexity": "complex",
+      "languageNotes": "v2 revision that explicitly supersedes design-priority-three.md §3; separates 'true sentiment' (opinionState) from 'observed snapshot' (polls with sampling noise) so agents strategically react to imperfect information rather than ground truth."
+    },
+    {
+      "id": "document:docs/design/observability-model.md",
+      "type": "document",
+      "name": "observability-model.md",
+      "filePath": "docs/design/observability-model.md",
+      "summary": "Defines three non-overlapping observability schemas — llmCallLog (cost/debug), tickSnapshot (engineering health), stanceDriftLog (behavioral acceptance) — plus the behavior_consistency_score and stance_drift_analysis PoC acceptance metrics and the checkBudget/alerting logic that feeds the cost model's degradation thresholds.",
+      "tags": ["documentation", "observability", "monitoring", "metrics", "cost-tracking"],
+      "complexity": "moderate",
+      "languageNotes": "checkBudget() TypeScript function is the direct numeric source for the llm-cost-model.md degradation ladder, illustrating a tight two-way contract between the docs rather than one-way dependency."
+    },
+    {
+      "id": "document:docs/design/politician-skill-contract.md",
+      "type": "document",
+      "name": "politician-skill-contract.md",
+      "filePath": "docs/design/politician-skill-contract.md",
+      "summary": "Locks the field-mapping contract from the external Politician-skill repo's meta.json/nodes.json/edges.json outputs into simulation Agent schema, including the backbone-derivation formula, the lossy hidden.social estimation, Zep relationship-graph seeding, and a version-update procedure when profileHash changes mid-simulation.",
+      "tags": ["documentation", "integration-contract", "data-mapping", "schema-definition"],
+      "complexity": "complex",
+      "languageNotes": "Explicitly reconciles a unit-scale mismatch between two source files (meta.json uses -5~+5, nodes.json uses -1~+1) and standardizes on nodes.json as the canonical scale."
+    },
+    {
+      "id": "document:docs/design/product-positioning.md",
+      "type": "document",
+      "name": "product-positioning.md",
+      "filePath": "docs/design/product-positioning.md",
+      "summary": "States the dual-audience product positioning (researchers vs. game developers) and derives a two-layer interface split — a Research Observatory frontend and a raw SDK/API layer — plus a disclaimer policy gated on an isRealPerson flag for ethical boundaries.",
+      "tags": ["documentation", "product-strategy", "positioning", "ethics", "api-design"],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/design/time-model.md",
+      "type": "document",
+      "name": "time-model.md",
+      "filePath": "docs/design/time-model.md",
+      "summary": "Defines the three-layer time hierarchy (tick/session/cycle) with event-driven session closure and a hard tick cap, plus a per-topic exponential stance-decay formula (STANCE_LAMBDA) that lets core ideology decay slowly while tactical positions swing quickly.",
+      "tags": ["documentation", "time-model", "event-driven", "simulation-clock", "decay-function"],
+      "complexity": "moderate",
+      "languageNotes": "v2 revision superseding design-priority-three.md §2's fixed-length session scheme; ticks are explicitly decoupled from wall-clock time to guarantee reproducibility given a seed and input sequence."
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/media-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/media-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/politician-skill-contract.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/politician-skill-contract.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

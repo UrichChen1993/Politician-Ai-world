@@ -1,0 +1,752 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "Politician-Ai-world",
+    "languages": [
+      "json",
+      "markdown"
+    ],
+    "frameworks": [],
+    "description": "A design and planning repository for an AI Politician agent-based simulation world, covering agents representing politicians, bills, a media/public-opinion layer, a time/session model, external event injection, observability, and an LLM cost model. It currently contains only Traditional Chinese markdown documentation (research notes, gap analysis, subsystem design docs) with no source code yet.",
+    "analyzedAt": "2026-07-15T13:46:59.314Z",
+    "gitCommitHash": "64a261bf9ad995b7b860bbdfe2775e71146325e0"
+  },
+  "nodes": [
+    {
+      "id": "document:docs/00-conventions.md",
+      "type": "document",
+      "name": "00-conventions.md",
+      "filePath": "docs/00-conventions.md",
+      "summary": "Documentation authoring conventions for the docs/ tree: directory layout, file naming rules (NN-topic.md vs design/<system>-model.md vs archive/), the mandatory header block (version | date | status), version-bump procedure, cross-reference/path rules, and the requirement to keep README.md in sync. Must be read before editing any docs/ file.",
+      "tags": [
+        "documentation",
+        "conventions",
+        "governance",
+        "process"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Written in Traditional Chinese; defines a lightweight blockquote-based frontmatter convention (version/date/status) instead of YAML frontmatter."
+    },
+    {
+      "id": "document:docs/01-research.md",
+      "type": "document",
+      "name": "01-research.md",
+      "filePath": "docs/01-research.md",
+      "summary": "Foundational architecture research comparing three reference projects (MiroFish, Stanford Generative Agents/Reverie, ai-town) and proposing the political simulation's core mechanics: a legislative/social/party/voter action set, an institutional rules engine, a layered engine architecture, a dual-tier public/hidden stance model with a pressure function, and PoC validation scenarios.",
+      "tags": [
+        "research",
+        "architecture",
+        "simulation-design",
+        "reference-projects"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/02-gaps.md",
+      "type": "document",
+      "name": "02-gaps.md",
+      "filePath": "docs/02-gaps.md",
+      "summary": "Gap analysis enumerating 18 design and engineering shortfalls found in 01-research.md (bill data model, time/session model, media/opinion layer, PoC metrics, LLM cost, Reflect throttling, fault tolerance, ethics boundaries, etc.), each marked resolved or unresolved with a link to the design doc that closes it. Functions as the project's single backlog index.",
+      "tags": [
+        "gap-analysis",
+        "backlog",
+        "requirements",
+        "documentation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/03-project-references.md",
+      "type": "document",
+      "name": "03-project-references.md",
+      "filePath": "docs/03-project-references.md",
+      "summary": "Technical index mapping specific modules of three local reference codebases (Reverie, ai-town, MiroFish) to the unresolved gaps in 02-gaps.md, with concrete code-reuse guidance for cold-start pipelines, Reflect throttling, and reproducibility, plus a list of gaps with no direct reference implementation.",
+      "tags": [
+        "reference-index",
+        "gap-mapping",
+        "documentation",
+        "reuse-guide"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "docs/README.md",
+      "summary": "Documentation index defining the recommended reading order (conventions → research → gaps → references → design/ → archive/), a directory map of the docs/ tree, and a quick-reference table cross-checking each of the 18 gaps in 02-gaps.md against its resolving design doc under design/.",
+      "tags": [
+        "documentation",
+        "index",
+        "entry-point",
+        "navigation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/design/bill-model.md",
+      "type": "document",
+      "name": "bill-model.md",
+      "filePath": "docs/design/bill-model.md",
+      "summary": "Pins down the bill data schema: structured articles with topic tags, a stanceVector projection used for the dot-product vote shortcut, a stage/committee workflow, an amendment version chain, and session-bound expiry instead of tick-based deadlines.",
+      "tags": [
+        "documentation",
+        "data-model",
+        "schema-definition",
+        "legislative-workflow",
+        "versioning"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Embeds a Convex/TypeScript `defineTable` schema block inside Traditional Chinese prose; stanceVector is designed as a precomputed vector so per-agent voting avoids a full LLM re-read of the bill text."
+    },
+    {
+      "id": "document:docs/design/external-event-model.md",
+      "type": "document",
+      "name": "external-event-model.md",
+      "filePath": "docs/design/external-event-model.md",
+      "summary": "Defines two deliberately separate external-injection channels — Admin Override (research tool, bypasses the media layer) and World Event (enters the Event Stream and is subject to media framing) — with a shared, auditable externalEvents schema and a PoC scoped to admin_override only.",
+      "tags": [
+        "documentation",
+        "event-driven",
+        "architecture",
+        "admin-tooling",
+        "audit-trail"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Uses `processedAtTick: number | null` instead of a boolean specifically to preserve reproducibility/audit value, a deliberate tradeoff called out in the doc's own tradeoff table."
+    },
+    {
+      "id": "document:docs/design/llm-cost-model.md",
+      "type": "document",
+      "name": "llm-cost-model.md",
+      "filePath": "docs/design/llm-cost-model.md",
+      "summary": "Classifies LLM calls into A/B/C tiers, defines a dot-product shortcut for decideVote, a three-layer Reflect throttle, a prompt-caching strategy for the ~4.5K-token skillMd block, and concrete per-scale cost estimates (PoC ~$0.09 to 100-agent cycle ~$112) with a budget-cap degradation ladder.",
+      "tags": [
+        "documentation",
+        "cost-optimization",
+        "llm-orchestration",
+        "budget-cap",
+        "throttling"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Mixes Python pseudocode (throttle logic, cost formulas) and a TypeScript LLM_CONFIG constants block with concrete Haiku/Sonnet pricing tables to justify each degradation threshold numerically."
+    },
+    {
+      "id": "document:docs/design/media-model.md",
+      "type": "document",
+      "name": "media-model.md",
+      "filePath": "docs/design/media-model.md",
+      "summary": "Specifies a three-channel opinion model (Media, Pollster, Campaign) where only polls are a noisy public snapshot of a hidden true opinionState, defines the sentiment/confidence update formulas per channel, a rule-based media_tick scoring/framing algorithm, and the final media_spotlight decay formula feeding the pressure function.",
+      "tags": [
+        "documentation",
+        "media-simulation",
+        "public-opinion",
+        "schema-definition",
+        "event-driven"
+      ],
+      "complexity": "complex",
+      "languageNotes": "v2 revision that explicitly supersedes design-priority-three.md §3; separates 'true sentiment' (opinionState) from 'observed snapshot' (polls with sampling noise) so agents strategically react to imperfect information rather than ground truth."
+    },
+    {
+      "id": "document:docs/design/observability-model.md",
+      "type": "document",
+      "name": "observability-model.md",
+      "filePath": "docs/design/observability-model.md",
+      "summary": "Defines three non-overlapping observability schemas — llmCallLog (cost/debug), tickSnapshot (engineering health), stanceDriftLog (behavioral acceptance) — plus the behavior_consistency_score and stance_drift_analysis PoC acceptance metrics and the checkBudget/alerting logic that feeds the cost model's degradation thresholds.",
+      "tags": [
+        "documentation",
+        "observability",
+        "monitoring",
+        "metrics",
+        "cost-tracking"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "checkBudget() TypeScript function is the direct numeric source for the llm-cost-model.md degradation ladder, illustrating a tight two-way contract between the docs rather than one-way dependency."
+    },
+    {
+      "id": "document:docs/design/politician-skill-contract.md",
+      "type": "document",
+      "name": "politician-skill-contract.md",
+      "filePath": "docs/design/politician-skill-contract.md",
+      "summary": "Locks the field-mapping contract from the external Politician-skill repo's meta.json/nodes.json/edges.json outputs into simulation Agent schema, including the backbone-derivation formula, the lossy hidden.social estimation, Zep relationship-graph seeding, and a version-update procedure when profileHash changes mid-simulation.",
+      "tags": [
+        "documentation",
+        "integration-contract",
+        "data-mapping",
+        "schema-definition"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Explicitly reconciles a unit-scale mismatch between two source files (meta.json uses -5~+5, nodes.json uses -1~+1) and standardizes on nodes.json as the canonical scale."
+    },
+    {
+      "id": "document:docs/design/product-positioning.md",
+      "type": "document",
+      "name": "product-positioning.md",
+      "filePath": "docs/design/product-positioning.md",
+      "summary": "States the dual-audience product positioning (researchers vs. game developers) and derives a two-layer interface split — a Research Observatory frontend and a raw SDK/API layer — plus a disclaimer policy gated on an isRealPerson flag for ethical boundaries.",
+      "tags": [
+        "documentation",
+        "product-strategy",
+        "positioning",
+        "ethics",
+        "api-design"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/design/time-model.md",
+      "type": "document",
+      "name": "time-model.md",
+      "filePath": "docs/design/time-model.md",
+      "summary": "Defines the three-layer time hierarchy (tick/session/cycle) with event-driven session closure and a hard tick cap, plus a per-topic exponential stance-decay formula (STANCE_LAMBDA) that lets core ideology decay slowly while tactical positions swing quickly.",
+      "tags": [
+        "documentation",
+        "time-model",
+        "event-driven",
+        "simulation-clock",
+        "decay-function"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "v2 revision superseding design-priority-three.md §2's fixed-length session scheme; ticks are explicitly decoupled from wall-clock time to guarantee reproducibility given a seed and input sequence."
+    },
+    {
+      "id": "document:docs/archive/design-priority-three.md",
+      "type": "document",
+      "name": "design-priority-three.md",
+      "filePath": "docs/archive/design-priority-three.md",
+      "summary": "Superseded v1 three-in-one design proposal covering the bill data schema, the three-tier time/session clock model, and the media/public-opinion layer; archived after its content was split and revised into standalone v2 design docs.",
+      "tags": [
+        "documentation",
+        "archived",
+        "superseded",
+        "design-doc"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Section 1 (Bill Schema) was extracted verbatim into docs/design/bill-model.md; sections 2 (time/session model) and 3 (media/opinion layer) were superseded by newer v2 designs in docs/design/time-model.md and docs/design/media-model.md respectively, per docs/README.md."
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/00-conventions.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/01-research.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/03-project-references.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/product-positioning.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/archive/design-priority-three.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/product-positioning.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/01-research.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/00-conventions.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/00-conventions.md",
+      "target": "document:docs/README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/03-project-references.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/bill-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/external-event-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/llm-cost-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/media-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/media-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/observability-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/politician-skill-contract.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/politician-skill-contract.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/product-positioning.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/design/time-model.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:governance",
+      "name": "Governance & Navigation",
+      "description": "The authoring rulebook and the documentation index that together govern how the docs/ tree is structured, named, versioned, and navigated.",
+      "nodeIds": [
+        "document:docs/00-conventions.md",
+        "document:docs/README.md"
+      ]
+    },
+    {
+      "id": "layer:research-foundation",
+      "name": "Research & Backlog",
+      "description": "The foundational architecture research, its derived gap-analysis backlog, and the reference-codebase index that maps unresolved gaps to reusable implementation patterns.",
+      "nodeIds": [
+        "document:docs/01-research.md",
+        "document:docs/02-gaps.md",
+        "document:docs/03-project-references.md"
+      ]
+    },
+    {
+      "id": "layer:subsystem-design",
+      "name": "Subsystem Design",
+      "description": "The current, pinned v2 design specifications for each simulation subsystem — bill data model, time/session clock, media/opinion model, external event injection, LLM cost model, observability, the politician-skill data contract, and product positioning — each closing one or more gaps from the backlog.",
+      "nodeIds": [
+        "document:docs/design/bill-model.md",
+        "document:docs/design/external-event-model.md",
+        "document:docs/design/llm-cost-model.md",
+        "document:docs/design/media-model.md",
+        "document:docs/design/observability-model.md",
+        "document:docs/design/politician-skill-contract.md",
+        "document:docs/design/product-positioning.md",
+        "document:docs/design/time-model.md"
+      ]
+    },
+    {
+      "id": "layer:archive",
+      "name": "Archived Designs",
+      "description": "Superseded design proposals kept for historical traceability after their content was split and replaced by standalone v2 documents in the Subsystem Design layer.",
+      "nodeIds": [
+        "document:docs/archive/design-priority-three.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Project Overview & Reading Order",
+      "description": "docs/README.md is the front door to this repository: an AI Politician agent-based simulation world that currently exists entirely as Traditional Chinese design documentation, with no source code yet. It has the highest fan-out of any document in the project (13 outgoing links) because it prescribes the canonical reading order — conventions, then research, then gaps, then references, then the pinned subsystem designs, and finally the archive for historical lookups only. This tour follows that exact sequence, so treat this step as the map for everything that follows.",
+      "nodeIds": [
+        "document:docs/README.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Documentation Conventions",
+      "description": "Before touching any file in docs/, the project requires you to know the rules: directory layout, file-naming patterns (NN-topic.md vs. design/<system>-model.md vs. archive/), a mandatory version|date|status header block, and the requirement to keep README.md's index in sync with reality. This is a governance document, not a design document — it explains HOW the docs/ tree is maintained, which is why README.md links to it first.",
+      "nodeIds": [
+        "document:docs/00-conventions.md"
+      ],
+      "languageLesson": "The project uses a lightweight blockquote-based header (version | date | status) as a substitute for YAML frontmatter — worth noting if you're used to frontmatter-driven doc tooling."
+    },
+    {
+      "order": 3,
+      "title": "Foundational Research",
+      "description": "01-research.md is where the simulation's core ideas originate. It compares three reference projects (MiroFish, Stanford's Generative Agents/Reverie, and ai-town) and proposes the mechanics this whole project builds on: a legislative/social/party/voter action set, an institutional rules engine, a layered engine architecture, and — most importantly — a dual-tier public/hidden stance model driven by a pressure function. Every subsystem design you'll see later exists to operationalize an idea first sketched here.",
+      "nodeIds": [
+        "document:docs/01-research.md"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "The Gap Analysis Backlog",
+      "description": "02-gaps.md is the structural hub of the entire documentation set — it has the highest fan-in (11 incoming links) of any node in the graph, because every subsystem design doc links back to it. It enumerates 18 concrete shortfalls found in the research from Step 3 (bill data model, time/session model, media layer, PoC metrics, LLM cost, Reflect throttling, fault tolerance, ethics boundaries, and more), marking each resolved or unresolved with a pointer to whichever design doc closes it. Think of this as the single backlog index that turns research ideas into trackable engineering work.",
+      "nodeIds": [
+        "document:docs/02-gaps.md"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "Reference Codebase Mapping",
+      "description": "03-project-references.md closes the loop between the abstract gaps from Step 4 and concrete code to borrow from. It maps specific modules of the same three reference codebases (Reverie, ai-town, MiroFish) to individual unresolved gaps — for example, which project's cold-start pipeline or Reflect-throttling logic to reuse — and is explicit about which gaps have no direct reference implementation at all.",
+      "nodeIds": [
+        "document:docs/03-project-references.md"
+      ]
+    },
+    {
+      "order": 6,
+      "title": "Time Model: The Simulation Clock",
+      "description": "With the backlog and reference map established, the tour now moves into design/, the pinned v2 subsystem specifications. time-model.md is the most depended-upon design doc in the project (8 incoming links) because nearly every other subsystem needs to know 'when' something happens. It defines a three-layer time hierarchy (tick/session/cycle) with event-driven session closure and a per-topic exponential stance-decay formula (STANCE_LAMBDA), letting core ideology decay slowly while tactical positions swing quickly.",
+      "nodeIds": [
+        "document:docs/design/time-model.md"
+      ],
+      "languageLesson": "Ticks are deliberately decoupled from wall-clock time, so a given seed plus a given input sequence always reproduces the same simulation state — a reproducibility guarantee worth noting if you design similar event-driven clocks."
+    },
+    {
+      "order": 7,
+      "title": "Bill Model: The Legislative Data Schema",
+      "description": "bill-model.md pins down the data shape for legislative bills that flow through the time hierarchy from Step 6: structured articles with topic tags, a stage/committee workflow, an amendment version chain, and session-bound expiry (rather than a raw tick-based deadline). It also introduces the stanceVector, a precomputed projection that later lets an agent decide how to vote without a full LLM re-read of the bill text — a detail that becomes critical in Step 11's cost model.",
+      "nodeIds": [
+        "document:docs/design/bill-model.md"
+      ],
+      "languageLesson": "The doc embeds a Convex/TypeScript defineTable schema block directly inside Chinese prose — a common pattern in this repo where formal schema snippets anchor otherwise-prose design docs."
+    },
+    {
+      "order": 8,
+      "title": "Media Model: Public Opinion Layer",
+      "description": "media-model.md builds on both the time decay from Step 6 and the bill stances from Step 7 to model how public opinion forms. It specifies three separate channels — Media, Pollster, Campaign — where only polls give a noisy, sampled snapshot of a hidden true opinionState, so agents must react strategically to imperfect information rather than ground truth. A rule-based media_tick scoring/framing algorithm and a media_spotlight decay formula feed directly into the pressure function first proposed back in Step 3's research.",
+      "nodeIds": [
+        "document:docs/design/media-model.md"
+      ],
+      "languageLesson": "This v2 doc explicitly supersedes the media section of the archived v1 design you'll see in the final step — a good example of tracking design evolution through doc versioning rather than deleting history."
+    },
+    {
+      "order": 9,
+      "title": "External Event Model: Injecting the Outside World",
+      "description": "external-event-model.md defines how events from outside the simulation enter it, and it deliberately keeps two channels separate: Admin Override, a research tool that bypasses the media layer from Step 8 entirely, and World Event, which enters the Event Stream and IS subject to media framing. Both share one auditable externalEvents schema, but the PoC scope is intentionally limited to admin_override only — a scoping decision that shows how this project trims ambition to ship something testable first.",
+      "nodeIds": [
+        "document:docs/design/external-event-model.md"
+      ],
+      "languageLesson": "The schema uses processedAtTick: number | null instead of a plain boolean specifically to preserve reproducibility and audit value — the doc's own tradeoff table calls this out as a deliberate design choice, worth emulating when a boolean would silently discard useful history."
+    },
+    {
+      "order": 10,
+      "title": "Politician Skill Contract: Agent Identity",
+      "description": "politician-skill-contract.md answers a different question than the subsystem docs so far: where does an individual agent's personality and relationships come from? It locks the field-mapping contract that turns an external Politician-skill repo's meta.json/nodes.json/edges.json outputs into this simulation's Agent schema, including a backbone-derivation formula, a lossy hidden.social estimation, and Zep relationship-graph seeding, plus a version-update procedure for when the source profile changes mid-simulation.",
+      "nodeIds": [
+        "document:docs/design/politician-skill-contract.md"
+      ],
+      "languageLesson": "The doc reconciles a unit-scale mismatch between two source files — meta.json uses a -5~+5 scale while nodes.json uses -1~+1 — and standardizes on nodes.json as canonical. Reconciling inconsistent external data contracts like this is a recurring integration hazard worth flagging early."
+    },
+    {
+      "order": 11,
+      "title": "LLM Cost Model & Observability",
+      "description": "These two docs form a tight two-way contract, so it's worth reading them together. llm-cost-model.md classifies every LLM call into A/B/C cost tiers, defines the dot-product shortcut for decideVote (reusing bill-model's stanceVector from Step 7), a three-layer Reflect throttle, and per-scale cost estimates with a budget-cap degradation ladder. observability-model.md defines the three schemas — llmCallLog, tickSnapshot, stanceDriftLog — and the checkBudget()/alerting logic that is the direct numeric source feeding that degradation ladder, closing the loop between what gets measured and what gets throttled.",
+      "nodeIds": [
+        "document:docs/design/llm-cost-model.md",
+        "document:docs/design/observability-model.md"
+      ],
+      "languageLesson": "llm-cost-model.md mixes Python pseudocode for throttle logic with a TypeScript LLM_CONFIG constants block carrying concrete Haiku/Sonnet pricing — a pragmatic pattern for justifying numeric thresholds with real pricing data rather than arbitrary constants."
+    },
+    {
+      "order": 12,
+      "title": "Product Positioning & Ethics",
+      "description": "product-positioning.md steps back from subsystem mechanics to ask who this simulation is for. It states a dual-audience positioning — researchers vs. game developers — and derives a two-layer interface split: a Research Observatory frontend for the former, and a raw SDK/API layer for the latter. It also sets a disclaimer policy gated on an isRealPerson flag, establishing the ethical boundary around simulating real politicians that shapes how everything from Step 10's agent identity to Step 9's event injection should ultimately be exposed to users.",
+      "nodeIds": [
+        "document:docs/design/product-positioning.md"
+      ]
+    },
+    {
+      "order": 13,
+      "title": "Archive: Where the Design Evolved From",
+      "description": "design-priority-three.md is the superseded v1 proposal that originally bundled the bill schema, the time/session model, and the media/opinion layer into one document, before being split and revised into the standalone v2 designs you toured in Steps 6 through 8. It's kept only for historical traceability and cross-reference lookups — per the reading order from Step 1, this is the one part of docs/ you consult last, and only when you need to understand why a v2 design changed from its predecessor.",
+      "nodeIds": [
+        "document:docs/archive/design-priority-three.md"
+      ]
+    }
+  ]
+}

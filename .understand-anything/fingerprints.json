@@ -1,0 +1,147 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "64a261bf9ad995b7b860bbdfe2775e71146325e0",
+  "generatedAt": "2026-07-15T13:47:52.232Z",
+  "files": {
+    "docs/00-conventions.md": {
+      "filePath": "docs/00-conventions.md",
+      "contentHash": "eb84130bf88ebda98f35a79aaa1cf39812bee1a7d5b6245bfa7d6b041f6b53c0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 221,
+      "hasStructuralAnalysis": true
+    },
+    "docs/01-research.md": {
+      "filePath": "docs/01-research.md",
+      "contentHash": "e98fbdc9579e0500043a1c0d8cfe37eca372cc880dac0a162f7f8b758ae960b1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 523,
+      "hasStructuralAnalysis": true
+    },
+    "docs/02-gaps.md": {
+      "filePath": "docs/02-gaps.md",
+      "contentHash": "a95946be9b19cd0cd60648e0b4daaee62484bea6a23facd6d2c7361261ab6898",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 218,
+      "hasStructuralAnalysis": true
+    },
+    "docs/03-project-references.md": {
+      "filePath": "docs/03-project-references.md",
+      "contentHash": "98f57b0feee33ca89ccbc14d4d3b399221d23f1a3dbfebd1acb3d523842ae8c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 174,
+      "hasStructuralAnalysis": true
+    },
+    "docs/README.md": {
+      "filePath": "docs/README.md",
+      "contentHash": "3e86287b141ba4ba28592660ec50a8b4d2e93f92673c83565fb52b43fe1706b3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 76,
+      "hasStructuralAnalysis": true
+    },
+    "docs/archive/design-priority-three.md": {
+      "filePath": "docs/archive/design-priority-three.md",
+      "contentHash": "ec10dbc121486ebe5da244eea45a961aed0085933f1413f6169c1bbdbe556624",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 317,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/bill-model.md": {
+      "filePath": "docs/design/bill-model.md",
+      "contentHash": "8efe137fdd42be0a27a13180e8fa787ce4488caf67917c9d25dcba8f23930cb3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 115,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/external-event-model.md": {
+      "filePath": "docs/design/external-event-model.md",
+      "contentHash": "7a22d587a9c9553cfbe57edf51e1ed18d575de74154a75c000e97bfe82c8a399",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 200,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/llm-cost-model.md": {
+      "filePath": "docs/design/llm-cost-model.md",
+      "contentHash": "1e17c0d52280af3c0fae4093d3ff135c17c81f94959bffd30e2a410a253163b6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 280,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/media-model.md": {
+      "filePath": "docs/design/media-model.md",
+      "contentHash": "10e55b707715624224e05bce0d2475e2ab637d5156fe4d064f9cf074a0330548",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 333,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/observability-model.md": {
+      "filePath": "docs/design/observability-model.md",
+      "contentHash": "67a4fd1f8240858507d88cf7777360cff43ef490d922add6a359a891ac5c4081",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 275,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/politician-skill-contract.md": {
+      "filePath": "docs/design/politician-skill-contract.md",
+      "contentHash": "3e496121125bfda5f3801f98f0aee85a6edeef982dd1aeeb8081c25f7b71caff",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 306,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/product-positioning.md": {
+      "filePath": "docs/design/product-positioning.md",
+      "contentHash": "d1c5d4c9464a258527b7580653d628ab1e339f95c6a710bb0271f2548e1ec58c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 73,
+      "hasStructuralAnalysis": true
+    },
+    "docs/design/time-model.md": {
+      "filePath": "docs/design/time-model.md",
+      "contentHash": "c5236c4801c9fe8583c8f75c31ada77ee23e5156dbde4cf63611dd33c6a272b8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 225,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

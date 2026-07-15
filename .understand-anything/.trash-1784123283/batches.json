@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 14,
+  "totalBatches": 3,
+  "exportsByPath": {},
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": "docs/00-conventions.md",
+          "language": "markdown",
+          "sizeLines": 220,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/01-research.md",
+          "language": "markdown",
+          "sizeLines": 522,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/02-gaps.md",
+          "language": "markdown",
+          "sizeLines": 217,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/03-project-references.md",
+          "language": "markdown",
+          "sizeLines": 173,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/README.md",
+          "language": "markdown",
+          "sizeLines": 75,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/00-conventions.md": [],
+        "docs/01-research.md": [],
+        "docs/02-gaps.md": [],
+        "docs/03-project-references.md": [],
+        "docs/README.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "docs/design/bill-model.md",
+          "language": "markdown",
+          "sizeLines": 114,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/external-event-model.md",
+          "language": "markdown",
+          "sizeLines": 199,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/llm-cost-model.md",
+          "language": "markdown",
+          "sizeLines": 279,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/media-model.md",
+          "language": "markdown",
+          "sizeLines": 332,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/observability-model.md",
+          "language": "markdown",
+          "sizeLines": 274,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/politician-skill-contract.md",
+          "language": "markdown",
+          "sizeLines": 305,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/product-positioning.md",
+          "language": "markdown",
+          "sizeLines": 72,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/design/time-model.md",
+          "language": "markdown",
+          "sizeLines": 224,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/design/bill-model.md": [],
+        "docs/design/external-event-model.md": [],
+        "docs/design/llm-cost-model.md": [],
+        "docs/design/media-model.md": [],
+        "docs/design/observability-model.md": [],
+        "docs/design/politician-skill-contract.md": [],
+        "docs/design/product-positioning.md": [],
+        "docs/design/time-model.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "docs/archive/design-priority-three.md",
+          "language": "markdown",
+          "sizeLines": 316,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/archive/design-priority-three.md": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

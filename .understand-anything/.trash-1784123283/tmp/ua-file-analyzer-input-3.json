@@ -1,0 +1,9 @@
+{
+  "projectRoot": "D:/work/AI/Politician-Ai-world",
+  "batchFiles": [
+    {"path": "docs/archive/design-priority-three.md", "language": "markdown", "sizeLines": 316, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    "docs/archive/design-priority-three.md": []
+  }
+}

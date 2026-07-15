@@ -1,0 +1,118 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/archive/design-priority-three.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 316,
+      "nonEmptyLines": 254,
+      "sections": [
+        {
+          "heading": "優先三項設計建議：法案 + 時間模型 + 媒體層",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 法案資料模型（Bill Schema）",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "1.1 核心 Schema",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "1.2 關鍵設計決策",
+          "level": 3,
+          "line": 95
+        },
+        {
+          "heading": "2. 時間／會期模型",
+          "level": 2,
+          "line": 105
+        },
+        {
+          "heading": "2.1 三層時鐘",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "2.2 建議參數",
+          "level": 3,
+          "line": 124
+        },
+        {
+          "heading": "2.3 事件觸發對應表",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "2.4 衰減公式（補回 ../01-research.md 缺的部分）",
+          "level": 3,
+          "line": 145
+        },
+        {
+          "heading": "2.5 集中常數",
+          "level": 3,
+          "line": 161
+        },
+        {
+          "heading": "3. 媒體與輿論層",
+          "level": 2,
+          "line": 167
+        },
+        {
+          "heading": "3.1 三層架構",
+          "level": 3,
+          "line": 171
+        },
+        {
+          "heading": "3.2 Schema",
+          "level": 3,
+          "line": 190
+        },
+        {
+          "heading": "3.3 媒體 Agent 的決策邏輯（每 round）",
+          "level": 3,
+          "line": 235
+        },
+        {
+          "heading": "3.4 `media_spotlight` 的計算（補回原文缺的源頭）",
+          "level": 3,
+          "line": 261
+        },
+        {
+          "heading": "3.5 民調對 Agent 壓力的傳導",
+          "level": 3,
+          "line": 272
+        },
+        {
+          "heading": "3.6 媒體新動作集（補進 [../01-research.md L42-L46](../01-research.md#L42-L46)）",
+          "level": 3,
+          "line": 282
+        },
+        {
+          "heading": "4. 落地優先序",
+          "level": 2,
+          "line": 291
+        },
+        {
+          "heading": "5. 與其他缺口的連動",
+          "level": 2,
+          "line": 306
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 19
+      }
+    }
+  ]
+}

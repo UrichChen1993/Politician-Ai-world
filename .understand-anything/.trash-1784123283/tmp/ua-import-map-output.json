@@ -1,0 +1,26 @@
+{
+  "scriptCompleted": true,
+  "stats": {
+    "filesScanned": 16,
+    "filesWithImports": 0,
+    "totalEdges": 0
+  },
+  "importMap": {
+    ".understand-anything/.understandignore": [],
+    ".understand-anything/config.json": [],
+    "docs/00-conventions.md": [],
+    "docs/01-research.md": [],
+    "docs/02-gaps.md": [],
+    "docs/03-project-references.md": [],
+    "docs/archive/design-priority-three.md": [],
+    "docs/design/bill-model.md": [],
+    "docs/design/external-event-model.md": [],
+    "docs/design/llm-cost-model.md": [],
+    "docs/design/media-model.md": [],
+    "docs/design/observability-model.md": [],
+    "docs/design/politician-skill-contract.md": [],
+    "docs/design/product-positioning.md": [],
+    "docs/design/time-model.md": [],
+    "docs/README.md": []
+  }
+}

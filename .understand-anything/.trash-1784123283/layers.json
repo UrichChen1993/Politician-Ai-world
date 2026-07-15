@@ -1,0 +1,44 @@
+[
+  {
+    "id": "layer:governance",
+    "name": "Governance & Navigation",
+    "description": "The authoring rulebook and the documentation index that together govern how the docs/ tree is structured, named, versioned, and navigated.",
+    "nodeIds": [
+      "document:docs/00-conventions.md",
+      "document:docs/README.md"
+    ]
+  },
+  {
+    "id": "layer:research-foundation",
+    "name": "Research & Backlog",
+    "description": "The foundational architecture research, its derived gap-analysis backlog, and the reference-codebase index that maps unresolved gaps to reusable implementation patterns.",
+    "nodeIds": [
+      "document:docs/01-research.md",
+      "document:docs/02-gaps.md",
+      "document:docs/03-project-references.md"
+    ]
+  },
+  {
+    "id": "layer:subsystem-design",
+    "name": "Subsystem Design",
+    "description": "The current, pinned v2 design specifications for each simulation subsystem — bill data model, time/session clock, media/opinion model, external event injection, LLM cost model, observability, the politician-skill data contract, and product positioning — each closing one or more gaps from the backlog.",
+    "nodeIds": [
+      "document:docs/design/bill-model.md",
+      "document:docs/design/external-event-model.md",
+      "document:docs/design/llm-cost-model.md",
+      "document:docs/design/media-model.md",
+      "document:docs/design/observability-model.md",
+      "document:docs/design/politician-skill-contract.md",
+      "document:docs/design/product-positioning.md",
+      "document:docs/design/time-model.md"
+    ]
+  },
+  {
+    "id": "layer:archive",
+    "name": "Archived Designs",
+    "description": "Superseded design proposals kept for historical traceability after their content was split and replaced by standalone v2 documents in the Subsystem Design layer.",
+    "nodeIds": [
+      "document:docs/archive/design-priority-three.md"
+    ]
+  }
+]

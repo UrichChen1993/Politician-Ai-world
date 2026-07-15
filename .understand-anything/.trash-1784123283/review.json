@@ -1,0 +1,17 @@
+{
+  "issues": [],
+  "warnings": [],
+  "stats": {
+    "totalNodes": 14,
+    "totalEdges": 52,
+    "totalLayers": 4,
+    "tourSteps": 13,
+    "nodeTypes": {
+      "document": 14
+    },
+    "edgeTypes": {
+      "documents": 12,
+      "related": 40
+    }
+  }
+}

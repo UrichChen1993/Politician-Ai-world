@@ -1,0 +1,20 @@
+{
+  "projectRoot": "D:\\work\\AI\\Politician-Ai-world",
+  "sourceFilePaths": [
+    "docs/00-conventions.md",
+    "docs/01-research.md",
+    "docs/02-gaps.md",
+    "docs/03-project-references.md",
+    "docs/README.md",
+    "docs/archive/design-priority-three.md",
+    "docs/design/bill-model.md",
+    "docs/design/external-event-model.md",
+    "docs/design/llm-cost-model.md",
+    "docs/design/media-model.md",
+    "docs/design/observability-model.md",
+    "docs/design/politician-skill-contract.md",
+    "docs/design/product-positioning.md",
+    "docs/design/time-model.md"
+  ],
+  "gitCommitHash": "64a261bf9ad995b7b860bbdfe2775e71146325e0"
+}

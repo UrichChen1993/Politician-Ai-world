@@ -1,0 +1,37 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/archive/design-priority-three.md",
+      "type": "document",
+      "name": "design-priority-three.md",
+      "filePath": "docs/archive/design-priority-three.md",
+      "summary": "Superseded v1 three-in-one design proposal covering the bill data schema, the three-tier time/session clock model, and the media/public-opinion layer; archived after its content was split and revised into standalone v2 design docs.",
+      "tags": ["documentation", "archived", "superseded", "design-doc"],
+      "complexity": "complex",
+      "languageNotes": "Section 1 (Bill Schema) was extracted verbatim into docs/design/bill-model.md; sections 2 (time/session model) and 3 (media/opinion layer) were superseded by newer v2 designs in docs/design/time-model.md and docs/design/media-model.md respectively, per docs/README.md."
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/archive/design-priority-three.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}
