@@ -138,6 +138,8 @@ Reverie 用 `vision_r` 處理空間可見性，政治場景需要的是「角色
 
 真實派系不只是立場聚類。
 
+> **狀態：部分處理** — 見 [design/deliberation-model.md](design/deliberation-model.md)（多輪審議讓黨團壓力經輪次浮現、agent 可互看發言後轉向；但歷史恩怨／世代／地域／利益分配仍未建模）。
+
 ---
 
 ## 六、跨橫切議題（容易被忽略）
@@ -160,6 +162,8 @@ Reverie 用 `vision_r` 處理空間可見性，政治場景需要的是「角色
 - 加上 tick 順序、reflect 觸發，重跑同一組輸入結果會不同
 - 實驗對比（[PoC 第 5 步](01-research.md#L513)「修改民調壓力 → 重跑 → 觀察」）需要種子控制方案
 - 文件沒談
+
+> **狀態：部分處理** — 見 [design/deliberation-model.md §4](design/deliberation-model.md)（生成式 digest 引入的非決定性以 `temperature=0` + 多次跑取平均緩解，並誠實標明無法 100% 重現的代價）。
 
 ### 18. 前端互動定位不清
 [L110-L112](01-research.md#L110-L112) 列了三個視覺化元件，但使用者是：
