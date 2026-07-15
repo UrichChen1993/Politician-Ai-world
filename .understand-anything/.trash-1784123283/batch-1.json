@@ -1,0 +1,227 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/00-conventions.md",
+      "type": "document",
+      "name": "00-conventions.md",
+      "filePath": "docs/00-conventions.md",
+      "summary": "Documentation authoring conventions for the docs/ tree: directory layout, file naming rules (NN-topic.md vs design/<system>-model.md vs archive/), the mandatory header block (version | date | status), version-bump procedure, cross-reference/path rules, and the requirement to keep README.md in sync. Must be read before editing any docs/ file.",
+      "tags": ["documentation", "conventions", "governance", "process"],
+      "complexity": "moderate",
+      "languageNotes": "Written in Traditional Chinese; defines a lightweight blockquote-based frontmatter convention (version/date/status) instead of YAML frontmatter."
+    },
+    {
+      "id": "document:docs/01-research.md",
+      "type": "document",
+      "name": "01-research.md",
+      "filePath": "docs/01-research.md",
+      "summary": "Foundational architecture research comparing three reference projects (MiroFish, Stanford Generative Agents/Reverie, ai-town) and proposing the political simulation's core mechanics: a legislative/social/party/voter action set, an institutional rules engine, a layered engine architecture, a dual-tier public/hidden stance model with a pressure function, and PoC validation scenarios.",
+      "tags": ["research", "architecture", "simulation-design", "reference-projects"],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/02-gaps.md",
+      "type": "document",
+      "name": "02-gaps.md",
+      "filePath": "docs/02-gaps.md",
+      "summary": "Gap analysis enumerating 18 design and engineering shortfalls found in 01-research.md (bill data model, time/session model, media/opinion layer, PoC metrics, LLM cost, Reflect throttling, fault tolerance, ethics boundaries, etc.), each marked resolved or unresolved with a link to the design doc that closes it. Functions as the project's single backlog index.",
+      "tags": ["gap-analysis", "backlog", "requirements", "documentation"],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/03-project-references.md",
+      "type": "document",
+      "name": "03-project-references.md",
+      "filePath": "docs/03-project-references.md",
+      "summary": "Technical index mapping specific modules of three local reference codebases (Reverie, ai-town, MiroFish) to the unresolved gaps in 02-gaps.md, with concrete code-reuse guidance for cold-start pipelines, Reflect throttling, and reproducibility, plus a list of gaps with no direct reference implementation.",
+      "tags": ["reference-index", "gap-mapping", "documentation", "reuse-guide"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "docs/README.md",
+      "summary": "Documentation index defining the recommended reading order (conventions → research → gaps → references → design/ → archive/), a directory map of the docs/ tree, and a quick-reference table cross-checking each of the 18 gaps in 02-gaps.md against its resolving design doc under design/.",
+      "tags": ["documentation", "index", "entry-point", "navigation"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/00-conventions.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/01-research.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/03-project-references.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/design/product-positioning.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/README.md",
+      "target": "document:docs/archive/design-priority-three.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/bill-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/time-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/media-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/observability-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/llm-cost-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/politician-skill-contract.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/product-positioning.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/design/external-event-model.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/02-gaps.md",
+      "target": "document:docs/01-research.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/00-conventions.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/00-conventions.md",
+      "target": "document:docs/README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/03-project-references.md",
+      "target": "document:docs/02-gaps.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

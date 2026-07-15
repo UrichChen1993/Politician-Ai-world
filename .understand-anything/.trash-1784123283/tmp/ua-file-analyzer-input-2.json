@@ -1,0 +1,23 @@
+{
+  "projectRoot": "D:/work/AI/Politician-Ai-world",
+  "batchFiles": [
+    {"path": "docs/design/bill-model.md", "language": "markdown", "sizeLines": 114, "fileCategory": "docs"},
+    {"path": "docs/design/external-event-model.md", "language": "markdown", "sizeLines": 199, "fileCategory": "docs"},
+    {"path": "docs/design/llm-cost-model.md", "language": "markdown", "sizeLines": 279, "fileCategory": "docs"},
+    {"path": "docs/design/media-model.md", "language": "markdown", "sizeLines": 332, "fileCategory": "docs"},
+    {"path": "docs/design/observability-model.md", "language": "markdown", "sizeLines": 274, "fileCategory": "docs"},
+    {"path": "docs/design/politician-skill-contract.md", "language": "markdown", "sizeLines": 305, "fileCategory": "docs"},
+    {"path": "docs/design/product-positioning.md", "language": "markdown", "sizeLines": 72, "fileCategory": "docs"},
+    {"path": "docs/design/time-model.md", "language": "markdown", "sizeLines": 224, "fileCategory": "docs"}
+  ],
+  "batchImportData": {
+    "docs/design/bill-model.md": [],
+    "docs/design/external-event-model.md": [],
+    "docs/design/llm-cost-model.md": [],
+    "docs/design/media-model.md": [],
+    "docs/design/observability-model.md": [],
+    "docs/design/politician-skill-contract.md": [],
+    "docs/design/product-positioning.md": [],
+    "docs/design/time-model.md": []
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "scriptCompleted": true,
+  "directoryGroups": {
+    "docs": [
+      "document:docs/00-conventions.md",
+      "document:docs/01-research.md",
+      "document:docs/02-gaps.md",
+      "document:docs/03-project-references.md",
+      "document:docs/README.md"
+    ],
+    "design": [
+      "document:docs/design/bill-model.md",
+      "document:docs/design/external-event-model.md",
+      "document:docs/design/llm-cost-model.md",
+      "document:docs/design/media-model.md",
+      "document:docs/design/observability-model.md",
+      "document:docs/design/politician-skill-contract.md",
+      "document:docs/design/product-positioning.md",
+      "document:docs/design/time-model.md"
+    ],
+    "archive": [
+      "document:docs/archive/design-priority-three.md"
+    ]
+  },
+  "nodeTypeGroups": {
+    "document": [
+      "document:docs/00-conventions.md",
+      "document:docs/01-research.md",
+      "document:docs/02-gaps.md",
+      "document:docs/03-project-references.md",
+      "document:docs/README.md",
+      "document:docs/design/bill-model.md",
+      "document:docs/design/external-event-model.md",
+      "document:docs/design/llm-cost-model.md",
+      "document:docs/design/media-model.md",
+      "document:docs/design/observability-model.md",
+      "document:docs/design/politician-skill-contract.md",
+      "document:docs/design/product-positioning.md",
+      "document:docs/design/time-model.md",
+      "document:docs/archive/design-priority-three.md"
+    ]
+  },
+  "crossCategoryEdges": [
+    {
+      "fromType": "document",
+      "toType": "document",
+      "edgeType": "documents",
+      "count": 12
+    },
+    {
+      "fromType": "document",
+      "toType": "document",
+      "edgeType": "related",
+      "count": 40
+    }
+  ],
+  "interGroupImports": [],
+  "intraGroupDensity": {
+    "docs": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "design": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "archive": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    }
+  },
+  "patternMatches": {
+    "docs": "documentation",
+    "design": "documentation",
+    "archive": "documentation"
+  },
+  "deploymentTopology": {
+    "hasDockerfile": false,
+    "hasCompose": false,
+    "hasK8s": false,
+    "hasTerraform": false,
+    "hasCI": false,
+    "infraFiles": []
+  },
+  "dataPipeline": {
+    "schemaFiles": [],
+    "migrationFiles": [],
+    "dataModelFiles": [],
+    "apiHandlerFiles": []
+  },
+  "docCoverage": {
+    "groupsWithDocs": 3,
+    "totalGroups": 3,
+    "coverageRatio": 1,
+    "undocumentedGroups": []
+  },
+  "dependencyDirection": [],
+  "fileStats": {
+    "totalFileNodes": 14,
+    "filesPerGroup": {
+      "docs": 5,
+      "design": 8,
+      "archive": 1
+    },
+    "nodeTypeCounts": {
+      "document": 14
+    }
+  },
+  "fileFanIn": {
+    "document:docs/00-conventions.md": 0,
+    "document:docs/01-research.md": 0,
+    "document:docs/02-gaps.md": 0,
+    "document:docs/03-project-references.md": 0,
+    "document:docs/README.md": 0,
+    "document:docs/design/bill-model.md": 0,
+    "document:docs/design/external-event-model.md": 0,
+    "document:docs/design/llm-cost-model.md": 0,
+    "document:docs/design/media-model.md": 0,
+    "document:docs/design/observability-model.md": 0,
+    "document:docs/design/politician-skill-contract.md": 0,
+    "document:docs/design/product-positioning.md": 0,
+    "document:docs/design/time-model.md": 0,
+    "document:docs/archive/design-priority-three.md": 0
+  },
+  "fileFanOut": {
+    "document:docs/00-conventions.md": 0,
+    "document:docs/01-research.md": 0,
+    "document:docs/02-gaps.md": 0,
+    "document:docs/03-project-references.md": 0,
+    "document:docs/README.md": 0,
+    "document:docs/design/bill-model.md": 0,
+    "document:docs/design/external-event-model.md": 0,
+    "document:docs/design/llm-cost-model.md": 0,
+    "document:docs/design/media-model.md": 0,
+    "document:docs/design/observability-model.md": 0,
+    "document:docs/design/politician-skill-contract.md": 0,
+    "document:docs/design/product-positioning.md": 0,
+    "document:docs/design/time-model.md": 0,
+    "document:docs/archive/design-priority-three.md": 0
+  }
+}

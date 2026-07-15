@@ -1,0 +1,14 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "Merge was a clean pass-through: 14 nodes / 52 edges in, 14 nodes / 52 edges out, 0 dangling edges, 0 duplicate nodes, 0 duplicate edges.",
+    "All batch-produced node IDs already used the correct document: prefix, valid type (document), and valid complexity values (simple/moderate/complex) — no mechanical fixes were needed, so no 'could not fix' issues existed to investigate.",
+    "Import map is empty for all 14 entries by design (documentation-only project, no source code imports); 0 recovered imports edges is expected, not a data quality gap.",
+    "Cross-document related/documents edges look structurally sound: docs/README.md and docs/02-gaps.md act as hubs linking to all design/ docs, and the archived doc links forward to its superseding v2 docs."
+  ]
+}
